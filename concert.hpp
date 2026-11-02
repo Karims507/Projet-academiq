@@ -1,9 +1,11 @@
-#pragma once;
+#pragma once
 
+#include "event.hpp"
 
-class Concert {
+class Concert : public Event {
 public:
-    Concert() {}
-    virtual ~Concert() {}
+    Concert(std::string title = "", int durationMinutes = 0);
+    ~Concert() override = default;
+
     virtual void play() const = 0;
 };
