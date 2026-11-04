@@ -52,7 +52,7 @@ std::optional<int> parseInt(const std::string& text) {
 std::optional<double> parseDouble(const std::string& text) {
     std::string s = trim(text);
     if (s.empty()) return std::nullopt;
-    std::replace(s.begin(), s.end(), ',', '.');  // "8,5" accepté
+    std::replace(s.begin(), s.end(), ',', '.');  // "8,5" accepte
     errno = 0;
     char* end = nullptr;
     const double v = std::strtod(s.c_str(), &end);

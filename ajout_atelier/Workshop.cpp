@@ -7,7 +7,7 @@
 
 namespace {
 
-// Le type s'enregistre tout seul au démarrage : ni la saisie, ni le fichier, ni l'affichage ne changent.
+// Le type s'enregistre tout seul au demarrage : ni la saisie, ni le fichier, ni l'affichage ne changent.
 [[maybe_unused]] const bool registered = EventRegistry::instance().add(
     {"WORKSHOP", "Atelier", {"Intervenant", "Niveau (DEBUTANT, INTERMEDIAIRE, AVANCE)"},
      [](const std::string& title, int duration, double price,

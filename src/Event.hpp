@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-// Événement abstrait (diagramme du cours) : title_, durationMinutes_, price_.
+// Evenement abstrait (diagramme du cours) : title_, durationMinutes_, price_.
 class Event {
 public:
     Event(std::string title, int durationMinutes, double price)
@@ -16,11 +16,11 @@ public:
     int durationMinutes() const { return durationMinutes_; }
     double price() const { return price_; }  // prix d'une place
 
-    virtual std::string typeKey() const = 0;                       // clé stockée dans le fichier ("SCREENING")
-    virtual std::string typeLabel() const = 0;                     // libellé affiché (ex. "Projection")
-    virtual std::string details() const = 0;                       // présentation au public
-    virtual std::vector<std::string> extraFields() const = 0;      // données propres, pour la sauvegarde
-    virtual int preparationMinutes() const { return 0; }           // temps d'occupation de la salle avant le début
+    virtual std::string typeKey() const = 0;                       // cle stockee dans le fichier ("SCREENING")
+    virtual std::string typeLabel() const = 0;                     // libelle affiche (ex. "Projection")
+    virtual std::string details() const = 0;                       // presentation au public
+    virtual std::vector<std::string> extraFields() const = 0;      // donnees propres, pour la sauvegarde
+    virtual int preparationMinutes() const { return 0; }           // temps d'occupation de la salle avant le debut
 
 private:
     std::string title_;
@@ -28,18 +28,18 @@ private:
     double price_;
 };
 
-// Description d'un type d'événement : tout ce qu'il faut pour le saisir, le valider et le recharger.
+// Description d'un type d'evenement : tout ce qu'il faut pour le saisir, le valider et le recharger.
 struct EventType {
     std::string key;
     std::string label;
-    std::vector<std::string> fieldPrompts;  // une question par donnée propre au type
-    // Lève std::invalid_argument avec un message précis si les champs sont invalides.
+    std::vector<std::string> fieldPrompts;  // une question par donnee propre au type
+    // Leve std::invalid_argument avec un message precis si les champs sont invalides.
     std::function<std::unique_ptr<Event>(const std::string& title, int durationMinutes, double price,
                                          const std::vector<std::string>& fields)>
         create;
 };
 
-// Registre des types : un nouveau type s'enregistre lui-même, sans toucher au reste du code.
+// Registre des types : un nouveau type s'enregistre lui-meme, sans toucher au reste du code.
 class EventRegistry {
 public:
     static EventRegistry& instance();
@@ -47,7 +47,7 @@ public:
     bool add(EventType type);
     const std::map<std::string, EventType>& all() const { return types_; }
 
-    // Point d'entrée unique de création (saisie clavier ET lecture de fichier) : mêmes validations.
+    // Point d'entree unique de creation (saisie clavier ET lecture de fichier) : memes validations.
     std::unique_ptr<Event> create(const std::string& key, const std::string& title, int durationMinutes,
                                   double price, const std::vector<std::string>& fields) const;
 

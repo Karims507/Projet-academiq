@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.hpp"
 
-// Projection (Screening dans le diagramme du cours) : âge minimum du public (minimumAge_).
+// Projection (Screening dans le diagramme du cours) : age minimum du public (minimumAge_).
 class Screening : public Event {
 public:
     Screening(std::string title, int durationMinutes, double price, int minimumAge)

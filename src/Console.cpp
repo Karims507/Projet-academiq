@@ -14,7 +14,7 @@ template <typename T>
 void printSummary(const std::string& label, const std::optional<Summary<T>>& s, const std::string& unit) {
     std::cout << "  " << label << " : ";
     if (!s) {
-        std::cout << "aucune donnée disponible\n";
+        std::cout << "aucune donnee disponible\n";
         return;
     }
     std::cout << std::fixed << std::setprecision(2) << "min " << s->min << unit << ", max " << s->max << unit
@@ -121,7 +121,7 @@ void Console::searchEvents() const {
     }
     const auto ids = venue_.searchEventsByTitle(query);
     if (ids.empty()) {
-        std::cout << "Aucun evenement ne correspond à « " << query << " ».\n";
+        std::cout << "Aucun evenement ne correspond a \"" << query << "\".\n";
         return;
     }
     for (int id : ids) {
@@ -145,7 +145,7 @@ void Console::showStatistics() const {
     std::cout << "\nRecettes totales : " << util::formatPrice(venue_.totalRevenue()) << "\n";
     const auto rooms = venue_.mostUsedRooms();
     if (rooms.empty()) {
-        std::cout << "Salles les plus utilisees : aucune séance programmee.\n";
+        std::cout << "Salles les plus utilisees : aucune seance programmee.\n";
     } else {
         std::cout << "Salle(s) la/les plus utilisee(s) :";
         for (const auto& r : rooms) std::cout << " « " << r.first->name << " » (" << r.second << " seance(s))";
@@ -165,7 +165,7 @@ void Console::administration() {
     }
     while (true) {
         std::cout << "\n--- Administration ---\n"
-                     " 1. Ajouter un evenement (avec sa première seance)\n"
+                     " 1. Ajouter un evenement (avec sa premiere seance)\n"
                      " 2. Ajouter une seance a un evenement existant\n"
                      " 3. Ajouter une salle\n"
                      " 0. Retour\n";

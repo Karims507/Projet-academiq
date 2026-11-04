@@ -50,7 +50,7 @@ Result Venue::checkSlot(const Event& event, int roomId, const Date& date, int st
                         int reservations) const {
     const Room* room = findRoom(roomId);
     if (!room) return Result::failure("salle inconnue (identifiant " + std::to_string(roomId) + ")");
-    if (startMinutes < 0 || startMinutes > 1439) return Result::failure("heure de début invalide");
+    if (startMinutes < 0 || startMinutes > 1439) return Result::failure("heure de debut invalide");
     if (quota <= 0) return Result::failure("le nombre de places mises en vente doit être strictement positif");
     if (quota > room->capacity)
         return Result::failure(std::to_string(quota) + " places demandees : cela depasse la capacite de la salle « " +
@@ -59,7 +59,7 @@ Result Venue::checkSlot(const Event& event, int roomId, const Date& date, int st
         return Result::failure("le nombre de places reservees (" + std::to_string(reservations) +
                                ") doit être compris entre 0 et " + std::to_string(quota));
 
-    // Occupation de la salle : [début - préparation, début + durée[ (deux séances qui se suivent sont permises).
+    // Occupation de la salle : [debut - preparation, debut + duree[ (deux seances qui se suivent sont permises).
     const long long start = date.toDays() * 1440LL + startMinutes;
     const long long begin = start - event.preparationMinutes();
     const long long end = start + event.durationMinutes();
@@ -93,7 +93,7 @@ Result Venue::scheduleNewEvent(std::unique_ptr<Event> event, int roomId, const D
                                int quota) {
     if (!event) return Result::failure("evenement invalide");
     const Result check = checkSlot(*event, roomId, date, startMinutes, quota, 0);
-    if (!check.ok) return check;  // rien n'est modifié en cas de refus
+    if (!check.ok) return check;  // rien n'est modifie en cas de refus
     const int eventId = nextEventId();
     const std::string title = event->title();
     addEvent(eventId, std::move(event));
@@ -116,11 +116,11 @@ Result Venue::bookSeats(int scheduledEventId, int quantity) {
     if (it == scheduled_.end()) return Result::failure("Reservation refusee : seance inconnue.");
     ScheduledEvent& s = it->second;
     if (quantity <= 0) return Result::failure("Reservation refusee : le nombre de places doit être strictement positif.");
-    if (s.remaining() == 0) return Result::failure("RReservation refusee : cette seance est complete.");
+    if (s.remaining() == 0) return Result::failure("Reservation refusee : cette seance est complete.");
     if (quantity > s.remaining())
         return Result::failure("Reservation refusee : vous demandez " + std::to_string(quantity) +
                                " place(s), il n'en reste que " + std::to_string(s.remaining()) + ".");
-    s.reservations += quantity;  // seul endroit où les réservations augmentent
+    s.reservations += quantity;  // seul endroit ou les reservations augmentent
     const Event* ev = findEvent(s.eventId);
     return Result::success("Reservation acceptee : " + std::to_string(quantity) + " place(s) pour « " + ev->title() +
                            " » le " + s.date.toString() + " a " + timeofday::toString(s.startMinutes) + " — total " +

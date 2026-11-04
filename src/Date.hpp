@@ -19,7 +19,7 @@ private:
     int y_ = 1970, m_ = 1, d_ = 1;
 };
 
-// Heure de début = nombre de minutes depuis minuit (0..1439), saisie/affichée en "HH:MM".
+// Heure de debut = nombre de minutes depuis minuit (0..1439), saisie/affichee en "HH:MM".
 namespace timeofday {
 std::optional<int> parse(const std::string& text);
 std::string toString(int minutesSinceMidnight);

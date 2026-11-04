@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.hpp"
 
-// Pièce de théâtre : comporte un entracte.
+// Piece de theatre : comporte un entracte.
 class Play : public Event {
 public:
     Play(std::string title, int durationMinutes, double price, int intermissionMinutes)

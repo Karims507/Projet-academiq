@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.hpp"
 
-// Atelier : un intervenant et un niveau. Aucun fichier existant n'est modifié pour l'ajouter.
+// Atelier : un intervenant et un niveau. Aucun fichier existant n'est modifie pour l'ajouter.
 class Workshop : public Event {
 public:
     Workshop(std::string title, int durationMinutes, double price, std::string instructor, std::string level)

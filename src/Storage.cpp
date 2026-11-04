@@ -84,7 +84,7 @@ Venue load(const std::string& path) {
     int lineNo = 0;
     while (std::getline(in, raw)) {
         ++lineNo;
-        const std::string line = util::trim(raw);  // retire aussi un éventuel '\r'
+        const std::string line = util::trim(raw);  // retire aussi un eventuel '\r'
         if (line.empty() || line[0] == '#') continue;
         Fields fields = util::split(line, '|');
         for (auto& x : fields) x = util::trim(x);
@@ -102,7 +102,7 @@ void save(const Venue& venue, const std::string& path) {
     const std::string tmp = path + ".tmp";
     {
         std::ofstream out(tmp, std::ios::trunc);
-        if (!out) throw std::runtime_error("impossible d'écrire " + tmp);
+        if (!out) throw std::runtime_error("impossible d'ecrire " + tmp);
         out << "# Lieu culturel - donnees (ROOM, EVENT, SCHEDULED ; separateur '|')\n";
         for (const auto& r : venue.rooms())
             out << "ROOM|" << r.first << '|' << r.second.name << '|' << r.second.capacity << '\n';

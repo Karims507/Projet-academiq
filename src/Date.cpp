@@ -11,7 +11,7 @@ int daysInMonth(int y, int m) {
     return (m == 2 && isLeap(y)) ? 29 : d[m - 1];
 }
 
-// Algorithme de H. Hinnant (calendrier grégorien proleptique).
+// Algorithme de H. Hinnant (calendrier gregorien proleptique).
 long long daysFromCivil(int y, int m, int d) {
     y -= m <= 2;
     const long long era = (y >= 0 ? y : y - 399) / 400;

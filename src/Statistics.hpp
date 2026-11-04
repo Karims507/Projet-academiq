@@ -5,13 +5,13 @@
 #include <optional>
 #include <vector>
 
-// Outil de calcul unique, réutilisé pour les prix (double), les fréquentations et les durées (int).
+// Outil de calcul unique, reutilise pour les prix (double), les frequentations et les durees (int).
 template <typename T>
 struct Summary {
     std::size_t count;
     T min;
     T max;
-    double mean;  // toujours décimale, même pour des entiers
+    double mean;  // toujours decimale, meme pour des entiers
 };
 
 // std::nullopt si aucune valeur n'est disponible.

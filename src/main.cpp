@@ -17,7 +17,7 @@ int main(int argc, char** argv) {
     } catch (const DataError& e) {
         std::cerr << "ERREUR DANS LE FICHIER DE DONNEES - chargement annuler.\n  " << e.what()
                   << "\nCorrigez le fichier puis relancez l'application. Arrêt.\n";
-        return 2;  // aucune programmation partielle n'est utilisée
+        return 2;  // aucune programmation partielle n'est utilisee
     }
     Console console(venue, path);
     console.run();
