@@ -3,14 +3,14 @@
 ## Prérequis
 
 - CMake 3.16 ou plus récent
-- Un compilateur C++17 (par exemple GCC, Clang ou MSVC)
+- Un compilateur C++17 (par exemple GCC)
 
 ## Compiler
 
 Depuis la racine du projet, configurez puis compilez le projet :
 
 ```powershell
-cmake -S . -B build
+cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++                                                      
 cmake --build build
 ```
 
@@ -63,3 +63,6 @@ le nouveau type au code de l'application.
 
 Un terminal configuré en UTF-8 est recommandé pour afficher correctement les
 accents.
+Executer ce commande pour configure en UTF-8:
+`chcp 65001`
+ 
