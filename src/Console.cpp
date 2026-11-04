@@ -121,7 +121,7 @@ void Console::searchEvents() const {
     }
     const auto ids = venue_.searchEventsByTitle(query);
     if (ids.empty()) {
-        std::cout << "Aucun evenement ne correspond a \"" << query << "\".\n";
+        std::cout << "Aucun evenement ne correspond a « " << query << " ».\n";
         return;
     }
     for (int id : ids) {
