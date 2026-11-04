@@ -1,0 +1,7 @@
+# Jeu de test du nouveau type (ajout final) : un atelier + une projection
+ROOM|1|Grande salle|300
+ROOM|2|Studio|80
+EVENT|1|WORKSHOP|Atelier céramique|180|30.00|Fatoumata Keita|DEBUTANT
+EVENT|2|SCREENING|Le Ciel d'Octobre|110|8.50|12
+SCHEDULED|1|1|2|2026-11-14|10:00|12|5
+SCHEDULED|2|2|1|2026-11-14|20:00|250|40

@@ -1,0 +1,19 @@
+# Données de test - Lieu culturel
+# ROOM|id|nom|capacité
+# EVENT|id|type|titre|durée (min)|prix|champs propres au type
+# SCHEDULED|id|événement|salle|date|heure|quota (places en vente)|réservations
+ROOM|1|Grande salle|300
+ROOM|2|Studio|80
+ROOM|3|Salle Molière|150
+
+EVENT|1|SCREENING|Le Ciel d'Octobre|110|8.50|12
+EVENT|2|CONCERT|Soirée Jazz|150|25.00|Aïcha Diallo;Marc Lenoir;Trio Sahel|30
+EVENT|3|PLAY|Le Malade imaginaire|135|18.00|15
+EVENT|4|SCREENING|Courts-métrages jeunesse|60|5.00|0
+
+SCHEDULED|1|1|2|2026-11-05|20:30|80|42
+SCHEDULED|2|1|2|2026-11-06|18:00|60|60
+SCHEDULED|3|2|1|2026-11-07|21:00|280|120
+SCHEDULED|4|3|3|2026-11-08|20:00|150|97
+SCHEDULED|5|4|2|2026-11-09|14:00|40|12
+SCHEDULED|6|3|3|2026-11-09|20:00|100|0
