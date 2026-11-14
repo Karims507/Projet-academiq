@@ -3,7 +3,7 @@
 
 #include "Venue.hpp"
 
-// Lancee quand l'entree standard est fermee (fin de fichier) : permet de scripter l'application.
+// Triggered when standard input is closed (end of file): allows scripting the application.
 struct EndOfInput {};
 
 class Console {

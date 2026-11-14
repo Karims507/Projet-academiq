@@ -2,13 +2,13 @@
 #include <optional>
 #include <string>
 
-// Date du calendrier au format "AAAA-MM-JJ".
+// Calendar date in the format "YYYY-MM-DD".
 class Date {
 public:
     Date() = default;
-    static std::optional<Date> parse(const std::string& text);  // validation stricte (jours/mois/bissextile)
+    static std::optional<Date> parse(const std::string& text);  // strict validation (days/months/leap years)
 
-    long long toDays() const;  // jours depuis 1970-01-01
+    long long toDays() const;  // days since 1970-01-01
     std::string toString() const;
 
     bool operator<(const Date& o) const { return toDays() < o.toDays(); }
@@ -19,7 +19,7 @@ private:
     int y_ = 1970, m_ = 1, d_ = 1;
 };
 
-// Heure de debut = nombre de minutes depuis minuit (0..1439), saisie/affichee en "HH:MM".
+// Start time = number of minutes since midnight (0..1439), entered/displayed as "HH:MM".
 namespace timeofday {
 std::optional<int> parse(const std::string& text);
 std::string toString(int minutesSinceMidnight);

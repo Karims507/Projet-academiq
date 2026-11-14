@@ -8,7 +8,7 @@ bool isLeap(int y) { return (y % 4 == 0 && y % 100 != 0) || y % 400 == 0; }
 
 int daysInMonth(int y, int m) {
     static const int d[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    return (m == 2 && isLeap(y)) ? 29 : d[m - 1];
+    return (m == 2 && isLeap(y )) ? 29 : d[m - 1];
 }
 
 // Algorithme de H. Hinnant (calendrier gregorien proleptique).

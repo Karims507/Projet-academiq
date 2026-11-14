@@ -5,16 +5,16 @@
 #include <optional>
 #include <vector>
 
-// Outil de calcul unique, reutilise pour les prix (double), les frequentations et les durees (int).
+// Shared calculation helper, reused for prices (double), attendance and durations (int).
 template <typename T>
 struct Summary {
     std::size_t count;
     T min;
     T max;
-    double mean;  // toujours decimale, meme pour des entiers
+    double mean;  // always decimal, even for integers
 };
 
-// std::nullopt si aucune valeur n'est disponible.
+// std::nullopt if no value is available.
 template <typename T>
 std::optional<Summary<T>> summarize(const std::vector<T>& values) {
     if (values.empty()) return std::nullopt;

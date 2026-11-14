@@ -1,18 +1,18 @@
 #pragma once
 #include "Date.hpp"
 
-// Seance (diagramme du cours : ScheduledEvent) : garde des liens vers l'evenement et la salle,
-// une date + une heure de debut, un quota de places et le nombre de reservations.
-// Les liens se font par identifiant (eventId, roomId) : sauvegarde simple, pas de pointeur pendant.
+// Session (course diagram: ScheduledEvent): keeps links to the event and room,
+// a date + start time, a seat quota and the number of reservations.
+// Links are made by ID (eventId, roomId): simple persistence, no pointer during runtime.
 struct ScheduledEvent {
     int id = 0;
     int eventId = 0;
     int roomId = 0;
     Date date;
-    int startMinutes = 0;  // minutes depuis minuit
-    int quota = 0;         // places mises en vente
-    int reservations = 0;  // places reservees
+    int startMinutes = 0;  // minutes since midnight
+    int quota = 0;         // seats put on sale
+    int reservations = 0;  // reserved seats
 
     int remaining() const { return quota - reservations; }
-    long long startAbsolute() const { return date.toDays() * 1440LL + startMinutes; }  // minutes depuis 1970
+    long long startAbsolute() const { return date.toDays() * 1440LL + startMinutes; }  // minutes since 1970
 };

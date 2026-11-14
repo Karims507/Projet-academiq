@@ -29,19 +29,19 @@ const ScheduledEvent* Venue::findScheduledEvent(int id) const {
 }
 
 Result Venue::addRoom(const Room& room) {
-    if (room.id <= 0) return Result::failure("l'identifiant de salle doit être strictement positif");
-    if (rooms_.count(room.id)) return Result::failure("identifiant de salle dejà utilise : " + std::to_string(room.id));
-    if (util::trim(room.name).empty()) return Result::failure("le nom de la salle ne peut pas être vide");
-    if (room.name.find('|') != std::string::npos) return Result::failure("le nom de la salle ne peut pas contenir '|'");
-    if (room.capacity <= 0) return Result::failure("la capacite de la salle doit être strictement positive");
+    if (room.id <= 0) return Result::failure("room ID must be strictly positive");
+    if (rooms_.count(room.id)) return Result::failure("room ID already in use: " + std::to_string(room.id));
+    if (util::trim(room.name).empty()) return Result::failure("room name cannot be empty");
+    if (room.name.find('|') != std::string::npos) return Result::failure("room name cannot contain '|'");
+    if (room.capacity <= 0) return Result::failure("room capacity must be strictly positive");
     rooms_.emplace(room.id, room);
-    return Result::success("Salle « " + room.name + " » ajoutee (capacite " + std::to_string(room.capacity) + ").");
+    return Result::success("Room \"" + room.name + "\" added (capacity " + std::to_string(room.capacity) + ").");
 }
 
 Result Venue::addEvent(int id, std::unique_ptr<Event> event) {
-    if (!event) return Result::failure("evenement invalide");
-    if (id <= 0) return Result::failure("l'identifiant d'evenement doit être strictement positif");
-    if (events_.count(id)) return Result::failure("identifiant d'evenement deja utilise : " + std::to_string(id));
+    if (!event) return Result::failure("invalid event");
+    if (id <= 0) return Result::failure("event ID must be strictly positive");
+    if (events_.count(id)) return Result::failure("event ID already in use: " + std::to_string(id));
     events_.emplace(id, std::move(event));
     return Result::success();
 }
@@ -49,17 +49,17 @@ Result Venue::addEvent(int id, std::unique_ptr<Event> event) {
 Result Venue::checkSlot(const Event& event, int roomId, const Date& date, int startMinutes, int quota,
                         int reservations) const {
     const Room* room = findRoom(roomId);
-    if (!room) return Result::failure("salle inconnue (identifiant " + std::to_string(roomId) + ")");
-    if (startMinutes < 0 || startMinutes > 1439) return Result::failure("heure de debut invalide");
-    if (quota <= 0) return Result::failure("le nombre de places mises en vente doit être strictement positif");
+    if (!room) return Result::failure("unknown room (ID " + std::to_string(roomId) + ")");
+    if (startMinutes < 0 || startMinutes > 1439) return Result::failure("invalid start time");
+    if (quota <= 0) return Result::failure("the number of seats offered for sale must be strictly positive");
     if (quota > room->capacity)
-        return Result::failure(std::to_string(quota) + " places demandees : cela depasse la capacite de la salle « " +
-                               room->name + " » (" + std::to_string(room->capacity) + ")");
+        return Result::failure(std::to_string(quota) + " seats requested: this exceeds the capacity of room \"" +
+                               room->name + "\" (" + std::to_string(room->capacity) + ")");
     if (reservations < 0 || reservations > quota)
-        return Result::failure("le nombre de places reservees (" + std::to_string(reservations) +
-                               ") doit être compris entre 0 et " + std::to_string(quota));
+        return Result::failure("the number of reserved seats (" + std::to_string(reservations) +
+                               ") must be between 0 and " + std::to_string(quota));
 
-    // Occupation de la salle : [debut - preparation, debut + duree[ (deux seances qui se suivent sont permises).
+    // Room occupancy: [start - preparation, start + duration[ (two consecutive sessions are allowed).
     const long long start = date.toDays() * 1440LL + startMinutes;
     const long long begin = start - event.preparationMinutes();
     const long long end = start + event.durationMinutes();
@@ -70,8 +70,8 @@ Result Venue::checkSlot(const Event& event, int roomId, const Date& date, int st
         const long long otherBegin = other.startAbsolute() - otherEvent->preparationMinutes();
         const long long otherEnd = other.startAbsolute() + otherEvent->durationMinutes();
         if (begin < otherEnd && otherBegin < end)
-            return Result::failure("conflit de salle : « " + room->name + " » est dejà occupee par « " +
-                                   otherEvent->title() + " » (" + other.date.toString() + " " +
+            return Result::failure("room conflict: \"" + room->name + "\" is already occupied by \"" +
+                                   otherEvent->title() + "\" (" + other.date.toString() + " " +
                                    timeofday::toString(other.startMinutes) + ", " +
                                    std::to_string(otherEvent->durationMinutes()) + " min)");
     }
@@ -79,10 +79,10 @@ Result Venue::checkSlot(const Event& event, int roomId, const Date& date, int st
 }
 
 Result Venue::addScheduledEvent(const ScheduledEvent& s) {
-    if (s.id <= 0) return Result::failure("l'identifiant de seance doit être strictement positif");
-    if (scheduled_.count(s.id)) return Result::failure("identifiant de seance deja utilise : " + std::to_string(s.id));
+    if (s.id <= 0) return Result::failure("session ID must be strictly positive");
+    if (scheduled_.count(s.id)) return Result::failure("session ID already in use: " + std::to_string(s.id));
     const Event* event = findEvent(s.eventId);
-    if (!event) return Result::failure("evenement inconnu (identifiant " + std::to_string(s.eventId) + ")");
+    if (!event) return Result::failure("unknown event (ID " + std::to_string(s.eventId) + ")");
     const Result check = checkSlot(*event, s.roomId, s.date, s.startMinutes, s.quota, s.reservations);
     if (!check.ok) return check;
     scheduled_.emplace(s.id, s);
@@ -91,41 +91,41 @@ Result Venue::addScheduledEvent(const ScheduledEvent& s) {
 
 Result Venue::scheduleNewEvent(std::unique_ptr<Event> event, int roomId, const Date& date, int startMinutes,
                                int quota) {
-    if (!event) return Result::failure("evenement invalide");
+    if (!event) return Result::failure("invalid event");
     const Result check = checkSlot(*event, roomId, date, startMinutes, quota, 0);
-    if (!check.ok) return check;  // rien n'est modifie en cas de refus
+    if (!check.ok) return check;  // nothing is modified if rejected
     const int eventId = nextEventId();
     const std::string title = event->title();
     addEvent(eventId, std::move(event));
     addScheduledEvent(ScheduledEvent{nextScheduledEventId(), eventId, roomId, date, startMinutes, quota, 0});
-    return Result::success("Evenement « " + title + " » programme le " + date.toString() + " à " +
-                           timeofday::toString(startMinutes) + " (" + std::to_string(quota) + " places en vente).");
+    return Result::success("Event \"" + title + "\" scheduled on " + date.toString() + " at " +
+                           timeofday::toString(startMinutes) + " (" + std::to_string(quota) + " seats for sale).");
 }
 
 Result Venue::scheduleExistingEvent(int eventId, int roomId, const Date& date, int startMinutes, int quota) {
-    if (!findEvent(eventId)) return Result::failure("evenement inconnu (identifiant " + std::to_string(eventId) + ")");
+    if (!findEvent(eventId)) return Result::failure("unknown event (ID " + std::to_string(eventId) + ")");
     const Result r =
         addScheduledEvent(ScheduledEvent{nextScheduledEventId(), eventId, roomId, date, startMinutes, quota, 0});
     if (!r.ok) return r;
-    return Result::success("Seance ajoutee le " + date.toString() + " a " + timeofday::toString(startMinutes) + " (" +
-                           std::to_string(quota) + " places en vente).");
+    return Result::success("Session added on " + date.toString() + " at " + timeofday::toString(startMinutes) + " (" +
+                           std::to_string(quota) + " seats for sale).");
 }
 
 Result Venue::bookSeats(int scheduledEventId, int quantity) {
     const auto it = scheduled_.find(scheduledEventId);
-    if (it == scheduled_.end()) return Result::failure("Reservation refusee : seance inconnue.");
+    if (it == scheduled_.end()) return Result::failure("Booking refused: unknown session.");
     ScheduledEvent& s = it->second;
-    if (quantity <= 0) return Result::failure("Reservation refusee : le nombre de places doit être strictement positif.");
-    if (s.remaining() == 0) return Result::failure("Reservation refusee : cette seance est complete.");
+    if (quantity <= 0) return Result::failure("Booking refused: the number of seats must be strictly positive.");
+    if (s.remaining() == 0) return Result::failure("Booking refused: this session is full.");
     if (quantity > s.remaining())
-        return Result::failure("Reservation refusee : vous demandez " + std::to_string(quantity) +
-                               " place(s), il n'en reste que " + std::to_string(s.remaining()) + ".");
-    s.reservations += quantity;  // seul endroit ou les reservations augmentent
+        return Result::failure("Booking refused: you requested " + std::to_string(quantity) +
+                               " seat(s), but only " + std::to_string(s.remaining()) + " remain.");
+    s.reservations += quantity;  // only place where reservations increase
     const Event* ev = findEvent(s.eventId);
-    return Result::success("Reservation acceptee : " + std::to_string(quantity) + " place(s) pour « " + ev->title() +
-                           " » le " + s.date.toString() + " a " + timeofday::toString(s.startMinutes) + " — total " +
-                           util::formatPrice(quantity * ev->price()) + " (il reste " +
-                           std::to_string(s.remaining()) + " place(s)).");
+    return Result::success("Booking accepted: " + std::to_string(quantity) + " seat(s) for \"" + ev->title() +
+                           "\" on " + s.date.toString() + " at " + timeofday::toString(s.startMinutes) + " — total " +
+                           util::formatPrice(quantity * ev->price()) + " (" +
+                           std::to_string(s.remaining()) + " seat(s) left).");
 }
 
 std::vector<int> Venue::searchEventsByTitle(const std::string& query) const {

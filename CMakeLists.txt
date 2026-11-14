@@ -16,6 +16,7 @@ add_executable(Projet-academiq
     src/Screening.cpp
     src/Concert.cpp
     src/Play.cpp
+    src/Workshop.cpp
 )
 
 target_compile_options(Projet-academiq PRIVATE -Wall -Wextra)

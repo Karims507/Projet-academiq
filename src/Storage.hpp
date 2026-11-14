@@ -4,7 +4,7 @@
 
 #include "Venue.hpp"
 
-// Erreur de donnees : indique le fichier, la ligne et la nature du probleme.
+// Data error: indicates the file, line and nature of the problem.
 class DataError : public std::runtime_error {
 public:
     DataError(const std::string& file, int line, const std::string& message)
@@ -20,8 +20,8 @@ private:
 
 namespace storage {
 bool exists(const std::string& path);
-// Charge TOUT ou RIEN : leve DataError a la premiere incoherence, aucun Venue partiel n'est renvoye.
+// Loads ALL OR NOTHING: raises DataError at the first inconsistency, no partial Venue is returned.
 Venue load(const std::string& path);
-// Ecrit dans un fichier temporaire puis le renomme (un crash ne detruit pas l'ancien fichier).
+// Writes to a temporary file and then renames it (a crash does not destroy the old file).
 void save(const Venue& venue, const std::string& path);
 }  // namespace storage

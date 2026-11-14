@@ -1,68 +1,65 @@
-# Gestion d'un lieu culturel (C++17)
+# Cultural venue management (C++17)
 
-## Prérequis
+## Prerequisites
 
-- CMake 3.16 ou plus récent
-- Un compilateur C++17 (par exemple GCC)
+- CMake 3.16 or newer
+- A C++17 compiler (for example GCC)
 
-## Compiler
+## Build
 
-Depuis la racine du projet, configurez puis compilez le projet :
+From the project root, configure and then build the project:
 
 ```powershell
-cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++                                                      
+cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_CXX_COMPILER=g++
 cmake --build build
 ```
 
-Avec Visual Studio, vous pouvez préciser la configuration :
+With Visual Studio, you can specify the configuration:
 
 ```powershell
 cmake --build build --config Release
 ```
 
-## Lancer
+## Run
 
-Sous Windows (configuration par défaut) :
+On Windows (default configuration):
 
 ```powershell
 Copy-Item data\test_data.txt lieu_data.txt
 .\build\Projet-academiq.exe lieu_data.txt
 ```
 
-Après une compilation Release avec Visual Studio :
+After a Release build with Visual Studio:
 
 ```powershell
 .\build\Release\Projet-academiq.exe lieu_data.txt
 ```
 
-Sous Linux ou macOS :
+On Linux or macOS:
 
 ```sh
 cp data/test_data.txt lieu_data.txt
 ./build/Projet-academiq lieu_data.txt
 ```
 
-L'argument est le chemin du fichier de données. S'il n'est pas fourni,
-l'application utilise `lieu_data.txt`. Les modifications sont sauvegardées dans
-ce fichier. La copie de l'exemple évite de modifier les fichiers de test suivis
-par Git.
+The argument is the path to the data file. If it is not provided, the application
+uses `lieu_data.txt`. Changes are saved in this file. Copying the sample avoids
+modifying files tracked by Git.
 
-Pour vérifier le traitement d'un fichier incohérent, lancez l'application avec
-`data/test_data_corrompu.txt` comme argument. Elle affiche l'erreur et se termine
-avec le code de sortie 2.
+To check handling of an inconsistent file, run the application with
+`data/test_data_corrompu.txt` as the argument. It displays the error and exits
+with status code 2.
 
-## Configuration et atelier
+## Configuration and workshop
 
-Le code administrateur par défaut est `Karm` ; il est défini dans
-`src/Config.hpp`.
+The default admin code is `Karm`; it is defined in `src/Config.hpp`.
 
-Les fichiers de `ajout_atelier/` ne font pas partie de la cible actuelle.
-Pour les compiler avec l'application, ajoutez `ajout_atelier/Workshop.cpp`
-à la liste des sources de `add_executable` dans `CMakeLists.txt` et intégrez
-le nouveau type au code de l'application.
+The files in `ajout_atelier/` are not part of the current target.
+To compile them with the application, add `ajout_atelier/Workshop.cpp`
+to the `add_executable` source list in `CMakeLists.txt` and integrate the new type
+into the application code.
 
-Un terminal configuré en UTF-8 est recommandé pour afficher correctement les
-accents.
-Executer ce commande pour configure en UTF-8:
+A UTF-8 configured terminal is recommended to display accents correctly.
+Run this command to configure UTF-8:
 `chcp 65001`
- 
+

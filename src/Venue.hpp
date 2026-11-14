@@ -12,7 +12,7 @@
 #include "ScheduledEvent.hpp"
 #include "Statistics.hpp"
 
-// Resultat d'une operation metier : accepte/refuse + message comprehensible.
+// Result of a business operation: accepted/rejected + understandable message.
 struct Result {
     bool ok;
     std::string message;
@@ -20,24 +20,24 @@ struct Result {
     static Result failure(std::string m) { return {false, std::move(m)}; }
 };
 
-// Le lieu culturel : salles, evenements, seances. Toutes les regles metier sont ici
-// (pas d'entree/sortie), ce qui les rend testables et independantes de l'interface.
+// The cultural venue: rooms, events, sessions. All business rules are kept here
+// (no input/output), making them testable and independent from the interface.
 class Venue {
 public:
-    // Operations bas niveau (utilisees aussi par le chargement de fichier).
+    // Low-level operations (also used by file loading).
     Result addRoom(const Room& room);
     Result addEvent(int id, std::unique_ptr<Event> event);
-    Result addScheduledEvent(const ScheduledEvent& s);  // verifie salle, quota, chevauchement
+    Result addScheduledEvent(const ScheduledEvent& s);  // validates room, quota, overlap
 
-    // Operations de haut niveau (administration).
+    // High-level operations (administration).
     Result scheduleNewEvent(std::unique_ptr<Event> event, int roomId, const Date& date, int startMinutes,
-                            int quota);  // tout ou rien
+                            int quota);  // all or nothing
     Result scheduleExistingEvent(int eventId, int roomId, const Date& date, int startMinutes, int quota);
 
     // Public.
     Result bookSeats(int scheduledEventId, int quantity);
 
-    // Acces.
+    // Access.
     int nextRoomId() const;
     int nextEventId() const;
     int nextScheduledEventId() const;
@@ -49,14 +49,14 @@ public:
     const std::map<int, ScheduledEvent>& scheduledEvents() const { return scheduled_; }
 
     // Consultation.
-    std::vector<int> searchEventsByTitle(const std::string& query) const;  // insensible a la casse
+    std::vector<int> searchEventsByTitle(const std::string& query) const;  // case insensitive
     std::vector<const ScheduledEvent*> scheduledEventsOf(int eventId) const;
     std::vector<const ScheduledEvent*> scheduleByDate() const;
     double totalRevenue() const;
-    std::vector<std::pair<const Room*, int>> mostUsedRooms() const;  // ex aequo inclus ; vide si aucune seance
-    std::optional<Summary<double>> priceSummary() const;       // prix de la place, par seance
-    std::optional<Summary<int>> attendanceSummary() const;     // places reservees, par seance
-    std::optional<Summary<int>> durationSummary() const;       // duree en minutes, par seance
+    std::vector<std::pair<const Room*, int>> mostUsedRooms() const;  // ties included; empty if no session
+    std::optional<Summary<double>> priceSummary() const;       // ticket price, per session
+    std::optional<Summary<int>> attendanceSummary() const;     // reserved seats, per session
+    std::optional<Summary<int>> durationSummary() const;       // duration in minutes, per session
 
 private:
     Result checkSlot(const Event& event, int roomId, const Date& date, int startMinutes, int quota,

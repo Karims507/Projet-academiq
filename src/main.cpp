@@ -2,22 +2,21 @@
 
 #include "Console.hpp"
 #include "Storage.hpp"
-
 int main(int argc, char** argv) {
     const std::string path = argc > 1 ? argv[1] : "lieu_data.txt";
     Venue venue;
     try {
         if (storage::exists(path)) {
             venue = storage::load(path);
-            std::cout << "Donnees chargees depuis " << path << " : " << venue.rooms().size() << " salle(s), "
-                      << venue.events().size() << " evenement(s), " << venue.scheduledEvents().size() << " seance(s).\n";
+            std::cout << "Data loaded from " << path << ": " << venue.rooms().size() << " room(s), "
+                      << venue.events().size() << " event(s), " << venue.scheduledEvents().size() << " session(s).\n";
         } else {
-            std::cout << "Fichier " << path << " absent : demarrage avec une programmation vide.\n";
+            std::cout << "File " << path << " is missing: starting with an empty schedule.\n";
         }
     } catch (const DataError& e) {
-        std::cerr << "ERREUR DANS LE FICHIER DE DONNEES - chargement annuler.\n  " << e.what()
-                  << "\nCorrigez le fichier puis relancez l'application. Arrêt.\n";
-        return 2;  // aucune programmation partielle n'est utilisee
+        std::cerr << "ERROR IN THE DATA FILE - loading cancelled.\n  " << e.what()
+                  << "\nFix the file and restart the application. Exit.\n";
+        return 2;  // no partial schedule is used
     }
     Console console(venue, path);
     console.run();

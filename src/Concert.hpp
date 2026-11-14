@@ -1,7 +1,7 @@
 #pragma once
 #include "Event.hpp"
 
-// Concert : liste d'artistes + balances (essais sonores) qui occupent la salle juste avant le concert.
+// Concert: list of artists + soundchecks that occupy the room just before the concert.
 class Concert : public Event {
 public:
     Concert(std::string title, int durationMinutes, double price, std::vector<std::string> artists,
