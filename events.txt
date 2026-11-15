@@ -1,0 +1,18 @@
+Play
+Title: Mariam
+Duration: 60
+Price: 0
+Interval: no
+Date: 
+Time: 
+Places: 0
+--------------------
+Play
+Title: Mariam
+Duration: 120
+Price: 8
+Interval: yes
+Date: 2026-05-07
+Time: 18
+Places: 80
+--------------------
